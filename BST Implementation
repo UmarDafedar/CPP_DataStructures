@@ -1,0 +1,126 @@
+#include<iostream>
+
+using namespace std;
+
+int lcount=0;
+
+struct Node
+{
+ int data;
+ Node* left;
+ Node* right;
+};
+
+Node* CreateNode(int data)
+{
+ Node* newnode=new Node;
+ newnode->data=data;
+ newnode->left=nullptr;
+ newnode->right=nullptr;
+ return newnode;
+}
+
+Node* Insert(Node* inproot,int data)
+{
+ if(inproot==nullptr)
+  inproot=CreateNode(data);
+ else if(data<=inproot->data)
+  inproot->left=Insert(inproot->left,data);
+ else if(data>inproot->data)
+  inproot->right=Insert(inproot->right,data);
+ return inproot;
+}
+
+bool Search(Node* inproot,int data)
+{
+ lcount++;
+ bool Found=false;
+ if(inproot==nullptr)
+  Found=false;
+ else if(data==inproot->data)
+  Found=true;
+ else if(data<=inproot->data)
+  Found=Search(inproot->left,data);
+ else if(data>inproot->data)
+  Found=Search(inproot->right,data);
+ return Found;
+}
+
+int FindMin(Node* root)
+{
+ if(root==nullptr)
+  return -1;
+ else if(root->left==nullptr)
+  return root->data;
+ 
+  return FindMin(root->left);
+}
+
+int FindMax(Node* root)
+{
+ if(root==nullptr)
+  return -1;
+ 
+ while(root->right != nullptr)
+  root=root->right;
+ 
+ return root->data;
+}
+
+// Find Height of root
+int FindHeight(Node* root)
+{
+ if(root==nullptr)
+  return -1;
+  
+ return max(FindHeight(root->left),FindHeight(root->right))+1;
+}
+
+bool FindDepth(Node* inproot,int data)
+{
+ bool Found=false;
+ if(inproot==nullptr)
+  Found=false;
+ else if(data==inproot->data)
+  Found=true;
+ else if(data<=inproot->data)
+ {
+  lcount++;
+  Found=FindDepth(inproot->left,data);
+ }
+ else if(data>inproot->data)
+ {
+  lcount++;
+  Found=FindDepth(inproot->right,data);
+ }
+ return Found;
+}
+
+int main()
+{
+ int random;
+ int i=25;
+ Node* root=nullptr;
+ while(i>0)
+ {
+  random=1+rand()%100;
+  cout<<random<<" ";
+  root=Insert(root,random);
+  i--;
+ }
+ cout<<endl;
+ 
+ if(Search(root,36))
+ {
+  cout<<"Found"<<endl;
+ }
+ 
+// cout<<FindMax(root)<<endl;
+// cout<<FindMin(root)<<endl;
+ //cout<<lcount<<endl;
+ //cout<<FindHeight(root)<<endl;
+ lcount=0;
+ if(FindDepth(root,36))
+  cout<<lcount<<endl;
+ return 0;
+}
