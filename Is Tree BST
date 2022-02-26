@@ -1,0 +1,92 @@
+#include<iostream>
+
+using namespace std;
+
+struct Node
+{
+ int data;
+ Node* left;
+ Node* right;
+};
+
+Node* CreateNode(Node* root,int data)
+{
+ Node* tmp=new Node;
+ tmp->data=data;
+ tmp->left=nullptr;
+ tmp->right=nullptr;
+ return tmp;
+}
+
+Node* InsertNode(Node* root,int data)
+{
+ if(root==nullptr)
+  root=CreateNode(root,data);
+ else if(data<=root->data)
+  root->left=InsertNode(root->left,data);
+ else if(data>root->data)
+  root->right=InsertNode(root->right,data);
+  
+  return root;
+}
+
+bool IssubTreeLesser(Node* root,int value)
+{
+ if(root==nullptr)
+  return true;
+ 
+ if(root->data<=value && IssubTreeLesser(root->left,value) && IssubTreeLesser(root->right,value))
+  return true;
+ else
+  return false;
+}
+
+
+bool IssubTreeGreater(Node* root,int value)
+{
+ if(root==nullptr)
+  return true;
+ 
+ if(root->data>value && IssubTreeGreater(root->left,value) && IssubTreeGreater(root->right,value))
+  return true;
+ else
+  return false;
+}
+
+bool IsTreeBST(Node* root)
+{
+ if(root=nullptr)
+  return true;
+ 
+ if(IssubTreeLesser(root->left,root->data) &&
+    IssubTreeGreater(root->right,root->data) &&
+    IsTreeBST(root->left) &&
+    IsTreeBST(root->right))
+    return true;
+ else
+  return false;
+ 
+}
+
+
+
+
+int main()
+{
+ Node* root=nullptr;
+ int i=25;
+ int value=0;
+ while(i>0)
+ {
+  value=1+rand()%100;
+  root=InsertNode(root,value);
+  i--;
+ }
+ 
+ if(IsTreeBST(root))
+  cout<<"It is BST"<<endl;
+ else
+  cout<<"It is BST"<<endl;
+ 
+ return 0;
+}
