@@ -55,7 +55,7 @@ bool IssubTreeGreater(Node* root,int value)
 
 bool IsTreeBST(Node* root)
 {
- if(root=nullptr)
+ if(root==nullptr)
   return true;
  
  if(IssubTreeLesser(root->left,root->data) &&
@@ -86,7 +86,7 @@ int main()
  if(IsTreeBST(root))
   cout<<"It is BST"<<endl;
  else
-  cout<<"It is BST"<<endl;
+  cout<<"It is not BST"<<endl;
  
  return 0;
 }
